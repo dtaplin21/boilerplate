@@ -1,6 +1,17 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json())
+
+require("express-async-errors")
+
+function requestLogger(req, res, next) {
+    if(!req.url.startswith("/static")) {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
+    }
+    next()
+}
+
 // For testing purposes, GET /
 app.get('/', (req, res) => {
   res.json("Express server running. No content provided at root level. Please use another route.");
